@@ -1,0 +1,88 @@
+body{
+    background-color: #0e0e0e;
+}
+
+h1{
+    color: white;
+}
+
+hr{
+    color: thistle;
+}
+
+#netflix-logo{
+    width: 200px;
+    height: 100px;
+}
+
+#avatar-logo{
+    width:100px;
+}
+
+h5{
+    color: aliceblue;
+}
+
+p{
+    color: aliceblue;
+}
+
+
+    body{
+      font-size: small;
+    }
+
+    .navbarLogo {
+      width: 100px;
+    }
+
+    .bg-Color {
+      color: white;
+      background-color: rgb(20, 20, 20);
+    }
+
+   
+
+  .center{
+      text-align:center;
+      font-weight: 900;
+
+  }
+#language{
+    color: gray;
+}
+  .name{
+      background-color: gray;
+      border-style:none ;
+  }
+
+
+.Button1st{
+    background-color:#373535;
+    color:whitesmoke;
+    border-color: whitesmoke ;
+    border-style: none;
+
+}
+.editButton{
+    background-color:#373535;
+    color:gray;
+    border-color: #7b7a7a;
+    border-style: none;
+}
+ 
+.saveButton{
+    background-color: white;
+    color: black;
+}
+.cancelButton{
+    border-color: white;
+    color:gray;
+}
+.deleteButton{
+    border-color: white;
+    color:gray;
+}
+label{
+    color: white;
+}
