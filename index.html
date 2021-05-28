@@ -227,7 +227,8 @@
     <!-- Navbar ends -->
 
     <!-- Categories -->
-    <div class="container-fluid">
+    <div class="container-fluid text-center">
+        <h2>Movie Categories</h2>
         <div class="row d-flex" id="tile-row">
             <!-- <div class="col-md-4 col-lg-3">
                 <div class="card" style="width: 18rem;">
@@ -439,7 +440,7 @@
 
     <!-- script for the homepage -->
     <script>
-        let i = -1;
+        let i = 0;
         let movieCategories = []
         const url = "https://striveschool-api.herokuapp.com/api/movies/ ";
          const key = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFmODNiYmJlOWIxNTAwMTU1MDZlMTgiLCJpYXQiOjE2MjIxOTU4ODcsImV4cCI6MTYyMzQwNTQ4N30.1OQmx0He9Yn8vCil9kEqKmqR9YrJhXTZRQ3jJsLDHvA";
@@ -467,7 +468,7 @@
                         i += 1
                     tileRow.innerHTML += `<div class="col-md-4 col-lg-3 mx-2 my-2">
                                             <div class="card" style="width: 18rem;">
-                                                <img src="${loremIpsumImgs}" class="card-img-top" alt="...">
+                                                <img src="https://picsum.photos/200/300?random=${i}" class="card-img-top" alt="...">
                                                 <div class="card-body">
                                                 <a href="./category.html?categoryName=${movieCategory}">
                                                 <h3 style="color: #0e0e0e;" class="card-text">${movieCategory}</h3>
