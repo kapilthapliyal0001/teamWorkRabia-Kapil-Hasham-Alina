@@ -229,16 +229,8 @@
     <!-- Categories -->
     <div class="container-fluid text-center">
         <h2>Movie Categories</h2>
-        <div class="row d-flex" id="tile-row">
-            <!-- <div class="col-md-4 col-lg-3">
-                <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h4 style="color: #0e0e0e;" class="card-text">XXX</h4>
-                    </div>
-                  </div>
-            </div> -->
-        </div>
+        <div class="row" id="tile-row">
+           
     </div>
     <!-- Dropdown Genre starts -->
     <div class="container-fluid mt-5">
@@ -466,10 +458,10 @@
                 }).then(movieData => {
                     movieCategories.forEach(movieCategory => {
                         i += 1
-                    tileRow.innerHTML += `<div class="col-md-4 col-lg-3 mx-2 my-2">
+                    tileRow.innerHTML += `<div class="col-md-4 col-lg-3 m-2 img-fluid">
                                             <div class="card" style="width: 18rem;">
-                                                <img src="https://picsum.photos/100/100?random=${i}" class="card-img-top" alt="...">
-                                                <div class="card-body">
+                                                <img src="https://picsum.photos/200/200?random=${i}" class="card-img-top img-thumbnail" alt="...">
+                                                <div class="card-body p-0">
                                                 <a href="./category.html?categoryName=${movieCategory}">
                                                 <h3 style="color: #0e0e0e;" class="card-text">${movieCategory}</h3>
                                             </a>
