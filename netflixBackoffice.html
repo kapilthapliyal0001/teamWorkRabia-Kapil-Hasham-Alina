@@ -13,7 +13,16 @@
       crossorigin="anonymous"
     />
 
-    <style></style>
+    <style>
+      body {
+        background: rgb(21, 66, 66);
+        background: linear-gradient(
+          9deg,
+          rgba(21, 66, 66, 1) 12%,
+          rgba(55, 135, 135, 1) 77%
+        );
+      }
+    </style>
 
     <title>NETFLIX (BACKOFFICE)</title>
   </head>
@@ -111,7 +120,12 @@
     <script>
       let idPresent = 0;
       const urlParams = new URLSearchParams(window.location.search); // ?eventId=1289391872398123
-      let eventId = urlParams.get("productId"); // the id for the addition and removing the movie;
+      let arrayEventId = urlParams.get("movieId"); // the id for the addition and removing the movie;
+      let passedData = arrayEventId.split("?");
+      console.log("The passes dats is: ", passedData);
+      eventId = passedData[0]; // movie id
+      eventCategory = passedData[1].split("=")[1]; // movie category
+      console.log(eventCategory);
 
       // authorization;
       const url = "https://striveschool-api.herokuapp.com/api/movies/ ";
@@ -177,13 +191,13 @@
 
         document.getElementById(
           "heading"
-        ).innerText = `EDIT / DELETE the Product id:${eventId}`;
+        ).innerText = `EDIT / DELETE the Movie:${eventId}`;
 
         // 1. Fetching the data by GET method from the given ID:
 
-        const url = `${url}${eventId}`;
+        const updateUrl = `https://striveschool-api.herokuapp.com/api/movies/${eventCategory}`;
         // console.log(url);
-        const response = fetch(url, {
+        const response = fetch(updateUrl, {
           method: "GET", // method is POST as we want to post the data;
           headers: {
             // headers is the info about the doctype;
@@ -191,14 +205,19 @@
             "Content-Type": "application/json",
           },
         })
-          .then((data) => data.json())
+          .then((response) => response.json())
           .then((file) => {
             console.log(file);
-
-            document.getElementById("name").value = file.name;
-            document.getElementById("description").value = file.description;
-            document.getElementById("category").value = file.category;
-            document.getElementById("url").value = file.imageUrl;
+            console.log("Am i printed?");
+            file.forEach((movie) => {
+              if (movie._id == eventId) {
+                document.getElementById("url").value = movie.imageUrl;
+                document.getElementById("category").value = movie.category;
+                document.getElementById("description").value =
+                  movie.description;
+                document.getElementById("name").value = movie.name;
+              }
+            });
           });
 
         console.log("Till here it done!");
@@ -208,11 +227,11 @@
       // DELETE method of the fetch API
       const deleteData = () => {
         console.log("Till here it's fine");
-        fetch(`${url}${eventId}`, {
+        fetch(`https://striveschool-api.herokuapp.com/api/movies/${eventId}`, {
           method: "DELETE",
           headers: {
             Authorization: key,
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
           },
         })
           .then((response) => response.json())
@@ -237,14 +256,14 @@
         console.log("till name is perfect", name);
 
         const myEvent = {
-          name,
-          description: document.getElementById("description").value,
-          brand: document.getElementById("category").value,
           imageUrl: document.getElementById("url").value,
+          category: document.getElementById("category").value,
+          description: document.getElementById("description").value,
+          name,
         };
 
         console.log("Ready for the update");
-        fetch(`${url}${eventId}`, {
+        fetch(`https://striveschool-api.herokuapp.com/api/movies/${eventId}`, {
           method: "PUT",
           body: JSON.stringify(myEvent),
           headers: {

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background: rgb(21, 66, 66);
+        background: linear-gradient(
+          9deg,
+          rgba(21, 66, 66, 1) 12%,
+          rgba(55, 135, 135, 1) 77%
+        );
+      }
+    </style>
+
+    <title>Movie Category</title>
+  </head>
+  <body>
+    <div class="container text-center">
+      <h1 class="my-3">See the movie in this Category</h1>
+      <a href="./index.html"> <h3>Go to the homepage</h3></a>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row" id="tile-row">
+        <!-- <div class="col col-md-4 col-lg-3">
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+          </div> -->
+      </div>
+    </div>
+
+    <!-- Actual script starts -->
+    <script>
+      const urlParams = new URLSearchParams(window.location.search); // ?eventId=1289391872398123
+      let eventName = urlParams.get("categoryName"); // the id for the addition and removing the movie;
+
+      console.log(eventName);
+      // url and the key
+      let url = "https://striveschool-api.herokuapp.com/api/movies/";
+      let categoryUrl = `${url}${eventName}`;
+      const key =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFmODNiYmJlOWIxNTAwMTU1MDZlMTgiLCJpYXQiOjE2MjIxOTU4ODcsImV4cCI6MTYyMzQwNTQ4N30.1OQmx0He9Yn8vCil9kEqKmqR9YrJhXTZRQ3jJsLDHvA";
+
+      // document tileRow;
+      const tileRow = document.getElementById("tile-row");
+      try {
+        fetch(categoryUrl, {
+          method: "GET",
+          headers: {
+            Authorization: key,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            data.forEach((movie) => {
+              console.log("Till here everything is fine");
+              tileRow.innerHTML += `<div class="card mx-2 my-2" style="width: 18rem;">
+                                        <img src="${movie.imageUrl}" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <a href="./netflixBackoffice.html?movieId=${movie._id}?movieCategory=${movie.category}">
+                                            <h2 class="card-text">${movie.name}</h2></a>
+                                            <h4 class="card-text">${movie.description}</h4>
+                                        </div>
+                                        </div>`;
+            });
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
