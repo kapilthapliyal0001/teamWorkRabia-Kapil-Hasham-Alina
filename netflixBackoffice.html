@@ -15,12 +15,16 @@
 
     <style>
       body {
-        background: rgb(21, 66, 66);
+        background: rgb(61, 68, 68);
         background: linear-gradient(
           9deg,
           rgba(21, 66, 66, 1) 12%,
-          rgba(55, 135, 135, 1) 77%
+          rgb(96, 107, 107) 77%
         );
+      }
+
+      label {
+        color: white;
       }
     </style>
 
@@ -31,69 +35,77 @@
     <!-- NavBar of the page  -->
 
     <nav class="navbar navbar-dark bg-dark">
-      <div class="container-fluid">
+      <div class="container-fluid d-flex justify-content-center">
         <span class="navbar-brand mb-0 h1">Netflix Backoffice</span>
       </div>
     </nav>
 
-    <div class="d-flex justify-content-center my-3" id="image-card"></div>
+    <div class="container-fluid d-flex">
+      <div class="d-flex justify-content-between my-3" id="image-card"></div>
 
-    <div class="container my-4">
-      <h2 class="text-center my-3" id="heading">Add movies of your CHOICE!</h2>
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <!-- FORM STARTS  -->
+      <div class="container my-4">
+        <h2 class="text-center my-3" id="heading">
+          Add movies of your CHOICE!
+        </h2>
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <!-- FORM STARTS  -->
 
-          <!-- Product Name  -->
-          <form onsubmit="handleSubmit(event)">
-            <div class="form-group">
-              <label for="name">Movie name</label>
+            <!-- Product Name  -->
+            <form onsubmit="handleSubmit(event)">
+              <div class="form-group">
+                <label for="name">Movie name</label>
+                <input
+                  id="name"
+                  type="text"
+                  class="form-control"
+                  aria-describedby="name"
+                />
+              </div>
+
+              <!-- Product Description -->
+              <div class="form-group">
+                <label for="description">Movie description</label>
+                <textarea
+                  id="description"
+                  type="text"
+                  rows="6"
+                  class="form-control"
+                  aria-describedby="product description"
+                ></textarea>
+              </div>
+
+              <!-- Product Brand -->
+              <div class="form-group">
+                <label for="category">Movie category</label>
+                <input
+                  id="category"
+                  type="text"
+                  class="form-control"
+                  aria-describedby="brand"
+                  placeholder="eg.horror"
+                />
+              </div>
+
+              <!-- Image Url -->
+              <div class="form-group">
+                <label for="time">Movie Url</label>
+                <input
+                  id="url"
+                  type="url"
+                  class="form-control"
+                  aria-describedby="url"
+                />
+              </div>
+
               <input
-                id="name"
-                type="text"
-                class="form-control"
-                aria-describedby="name"
+                type="submit"
+                class="btn btn-primary mt-3"
+                value="Submit"
               />
-            </div>
-
-            <!-- Product Description -->
-            <div class="form-group">
-              <label for="description">Movie description</label>
-              <textarea
-                id="description"
-                type="text"
-                rows="6"
-                class="form-control"
-                aria-describedby="product description"
-              ></textarea>
-            </div>
-
-            <!-- Product Brand -->
-            <div class="form-group">
-              <label for="category">Movie category</label>
-              <input
-                id="category"
-                type="text"
-                class="form-control"
-                aria-describedby="brand"
-                placeholder="eg.horror"
-              />
-            </div>
-
-            <!-- Image Url -->
-            <div class="form-group">
-              <label for="time">Movie Url</label>
-              <input
-                id="url"
-                type="url"
-                class="form-control"
-                aria-describedby="url"
-              />
-            </div>
-
-            <input type="submit" class="btn btn-primary mt-3" value="Submit" />
-          </form>
-          <!-- FORM ENDS HERE  -->
+            </form>
+            <!-- FORM ENDS HERE  -->
+          </div>
         </div>
       </div>
     </div>
@@ -193,7 +205,7 @@
 
         document.getElementById(
           "heading"
-        ).innerText = `EDIT / DELETE the Movie:${eventId}`;
+        ).innerText = `EDIT / DELETE the Movie:`; //${eventId};
 
         // 1. Fetching the data by GET method from the given ID:
 
@@ -219,11 +231,8 @@
                   movie.description;
                 document.getElementById("name").value = movie.name;
 
-                document.getElementById(
-                  "image-card"
-                ).innerHTML += `<div class="card" style="width: 18rem;">
+                document.getElementById("image-card").innerHTML += `<div>
                                                             <img src="${movie.imageUrl}" class="card-img-top" alt="...">
-
                                                             </div>`;
               }
             });
