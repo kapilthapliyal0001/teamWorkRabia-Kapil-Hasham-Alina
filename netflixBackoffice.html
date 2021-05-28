@@ -36,6 +36,8 @@
       </div>
     </nav>
 
+    <div class="d-flex justify-content-center my-3" id="image-card"></div>
+
     <div class="container my-4">
       <h2 class="text-center my-3" id="heading">Add movies of your CHOICE!</h2>
       <div class="row justify-content-center">
@@ -216,6 +218,13 @@
                 document.getElementById("description").value =
                   movie.description;
                 document.getElementById("name").value = movie.name;
+
+                document.getElementById(
+                  "image-card"
+                ).innerHTML += `<div class="card" style="width: 18rem;">
+                                                            <img src="${movie.imageUrl}" class="card-img-top" alt="...">
+
+                                                            </div>`;
               }
             });
           });
