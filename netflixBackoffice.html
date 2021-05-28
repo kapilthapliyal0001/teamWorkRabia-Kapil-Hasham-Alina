@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+
+    <style></style>
+
+    <title>NETFLIX (BACKOFFICE)</title>
+  </head>
+
+  <body>
+    <!-- NavBar of the page  -->
+
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Netflix Backoffice</span>
+      </div>
+    </nav>
+
+    <div class="container my-4">
+      <h2 class="text-center my-3" id="heading">Add movies of your CHOICE!</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <!-- FORM STARTS  -->
+
+          <!-- Product Name  -->
+          <form onsubmit="handleSubmit(event)">
+            <div class="form-group">
+              <label for="name">Movie name</label>
+              <input
+                id="name"
+                type="text"
+                class="form-control"
+                aria-describedby="name"
+              />
+            </div>
+
+            <!-- Product Description -->
+            <div class="form-group">
+              <label for="description">Movie description</label>
+              <textarea
+                id="description"
+                type="text"
+                rows="6"
+                class="form-control"
+                aria-describedby="product description"
+              ></textarea>
+            </div>
+
+            <!-- Product Brand -->
+            <div class="form-group">
+              <label for="category">Movie category</label>
+              <input
+                id="category"
+                type="text"
+                class="form-control"
+                aria-describedby="brand"
+                placeholder="eg.horror"
+              />
+            </div>
+
+            <!-- Image Url -->
+            <div class="form-group">
+              <label for="time">Movie Url</label>
+              <input
+                id="url"
+                type="url"
+                class="form-control"
+                aria-describedby="url"
+              />
+            </div>
+
+            <input type="submit" class="btn btn-primary mt-3" value="Submit" />
+          </form>
+          <!-- FORM ENDS HERE  -->
+        </div>
+      </div>
+    </div>
+
+    <!-- HomePage link -->
+    <div
+      class="backoffice d-flex justify-content-between container mt-4"
+      id="edit"
+    >
+      <h2 class="mt-3">Go to the homepage and see all the Movies!</h2>
+      <a class="mt-3" href="./index.html"
+        ><button type="button" class="btn btn-success">Go!</button></a
+      >
+    </div>
+
+    <!-- QUICK AUTHORIZATION -->
+    <!-- 
+    fetch("https://striveschool-api.herokuapp.com/api/put-your-endpoint-here/", {
+        headers: {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFmODNiYmJlOWIxNTAwMTU1MDZlMTgiLCJpYXQiOjE2MjIxOTU4ODcsImV4cCI6MTYyMzQwNTQ4N30.1OQmx0He9Yn8vCil9kEqKmqR9YrJhXTZRQ3jJsLDHvA"
+        }
+        } 
+
+    <!-- AMAZON backoffice JS starts; -->
+
+    <script>
+      let idPresent = 0;
+      const urlParams = new URLSearchParams(window.location.search); // ?eventId=1289391872398123
+      let eventId = urlParams.get("productId"); // the id for the addition and removing the movie;
+
+      // authorization;
+      const url = "https://striveschool-api.herokuapp.com/api/movies/ ";
+      const key =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFmODNiYmJlOWIxNTAwMTU1MDZlMTgiLCJpYXQiOjE2MjIxOTU4ODcsImV4cCI6MTYyMzQwNTQ4N30.1OQmx0He9Yn8vCil9kEqKmqR9YrJhXTZRQ3jJsLDHvA";
+
+      // handle submit function whenever the form is being submitted;
+
+      const handleSubmit = async (event) => {
+        event.preventDefault();
+        const name = document.getElementById("name").value;
+        console.log("till name is perfect", name);
+
+        const myEvent = {
+          imageUrl: document.getElementById("url").value,
+          category: document.getElementById("category").value,
+          description: document.getElementById("description").value,
+          name,
+        };
+
+        //  time for some POST when the user pushes some data in the product page;
+
+        try {
+          const response = await fetch(url, {
+            method: "POST", // method is POST as we want to post the data;
+            body: JSON.stringify(myEvent), // object is stringified;
+            headers: {
+              // headers is the info about the doctype;
+              Authorization: key,
+              "Content-Type": "application/json",
+            },
+          });
+
+          console.log("Lets see the response: ", response);
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log("The data is: ", data);
+            alert(
+              `The product has been successfully added ! with the id: ${data._id}`
+            );
+            document.getElementById("url").value = "";
+            document.getElementById("category").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("name").value = "";
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      };
+
+      // if we got the page from the homepage product clicks;
+
+      if (eventId) {
+        // if eventId present from the top then;
+        idPresent = 1;
+        const editButton = document.getElementById("edit");
+        const updateBtn = document.createElement("div");
+        updateBtn.innerHTML = `<button type="button" class="btn btn-danger ml-4 my-3" onclick="deleteData()">Delete Movie from the Database</button>
+                                  <button type="button" class="btn btn-dark mt-3" onclick="editData()">Edit Movie Details</button><br>`;
+
+        editButton.appendChild(updateBtn);
+
+        document.getElementById(
+          "heading"
+        ).innerText = `EDIT / DELETE the Product id:${eventId}`;
+
+        // 1. Fetching the data by GET method from the given ID:
+
+        const url = `${url}${eventId}`;
+        // console.log(url);
+        const response = fetch(url, {
+          method: "GET", // method is POST as we want to post the data;
+          headers: {
+            // headers is the info about the doctype;
+            Authorization: key,
+            "Content-Type": "application/json",
+          },
+        })
+          .then((data) => data.json())
+          .then((file) => {
+            console.log(file);
+
+            document.getElementById("name").value = file.name;
+            document.getElementById("description").value = file.description;
+            document.getElementById("category").value = file.category;
+            document.getElementById("url").value = file.imageUrl;
+          });
+
+        console.log("Till here it done!");
+      }
+
+      // delete data function which removes the data using
+      // DELETE method of the fetch API
+      const deleteData = () => {
+        console.log("Till here it's fine");
+        fetch(`${url}${eventId}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: key,
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) =>
+            console.log("The data has been successfully deleted: ", data)
+          )
+          .then((editFills) => {
+            document.getElementById("name").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("category").value = "";
+            document.getElementById("url").value = "";
+          });
+      };
+
+      // edit data function which edits the product data and
+      // uses PUT method of the fetch API;
+
+      const editData = () => {
+        // grabbing the data to be edited;
+
+        const name = document.getElementById("name").value;
+        console.log("till name is perfect", name);
+
+        const myEvent = {
+          name,
+          description: document.getElementById("description").value,
+          brand: document.getElementById("category").value,
+          imageUrl: document.getElementById("url").value,
+        };
+
+        console.log("Ready for the update");
+        fetch(`${url}${eventId}`, {
+          method: "PUT",
+          body: JSON.stringify(myEvent),
+          headers: {
+            Authorization: key,
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .then((removetext) => {
+            document.getElementById("name").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("category").value = "";
+            document.getElementById("url").value = "";
+          });
+      };
+    </script>
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
